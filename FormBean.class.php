@@ -66,7 +66,7 @@ class FormBean{
 	
 	
 	function validate(){
-		// Validation code goes here
+		// Validation code will be here
 	}
 
 	public function fromArrayMeta(){
