@@ -303,9 +303,8 @@ class Registry {
 			$msg=" No action with name $action_name ";
 			$action=new Main();
 			$methodName=$action_name;
-			if(!method_exists($action, $methodName))
-			{
-				$new=new Exception($msg."<br/>And No $methodName method in MainAction");
+			if(!method_exists($action, $methodName)){
+				$new=new Exception($msg."<br/> And No $methodName method in MainAction");
 				print_x($new);
 				print_x($e);
 				die();
