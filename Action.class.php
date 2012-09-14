@@ -83,7 +83,7 @@ class Action extends SmartyBC implements ArrayAccess {
 				$this->assign('p_title',$class_small_name);
 		}
 
-		//turning debuggin on 
+		// turn smarty debuggin on 
 		//$this->debugging=true;
 		$this->force_cache=true;// force compile every time
 		$this->template_dir=TMPL_PATH;
