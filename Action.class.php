@@ -22,7 +22,7 @@ class Action extends SmartyBC implements ArrayAccess {
    }
 
    public function offsetUnset($name){
-      if (isset($this->_tpl_vars[$name])) {
+      if (isset($this->_tpl_vars[$name])){
          unset($this->_tpl_vars[$name]);
       }
       return (true);
@@ -53,19 +53,16 @@ class Action extends SmartyBC implements ArrayAccess {
     	
     	parent::__construct();
     	$my_name=get_class($this);
-    	if($this->has_bean)
-		{
+    	if($this->has_bean){
 			//$this->bean=Registry::getNewBean(get_class($this));
 			$bean_name= $my_name."Bean";
 			$this->bean=new $bean_name();
 		}
-		else
-		{
+		else{
 			$this->bean=new FormBean();
 		}
 		
-		if($this->has_model)
-		{
+		if($this->has_model){
 			$model_name= $my_name."Model";
 			$this->model=new $model_name();
 		}
