@@ -29,7 +29,6 @@ class Action extends SmartyBC implements ArrayAccess {
    }
    
     public function prepare_time(){
-    	
     	// Nice 2 digit formatting
 		$prepend = array('00','01','02','03','04','05','06','07','08','09'); 
 		$hours     = array_merge($prepend,range(10, 23)); 
@@ -70,9 +69,6 @@ class Action extends SmartyBC implements ArrayAccess {
 			$model_name= $my_name."Model";
 			$this->model=new $model_name();
 		}
-			
-		
-		
     }
     
     
