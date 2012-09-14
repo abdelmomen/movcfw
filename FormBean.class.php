@@ -65,7 +65,9 @@ class FormBean{
 	}
 	
 	
-	function validate(){}
+	function validate(){
+		// Validation code goes here
+	}
 
 	public function fromArrayMeta(){
 		    	//if(isset($this->meta[$key])&&$this->meta[$key]['required']==TRUE)echo "$key req";
