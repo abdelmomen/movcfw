@@ -85,7 +85,6 @@ class Action extends SmartyBC implements ArrayAccess {
 
 		//turn debuggin on 
 		//$this->debugging=true;
-		
 		$this->force_cache=true;// force compile every time
 		$this->template_dir=TMPL_PATH;
 		$this->php_handling=Smarty::PHP_ALLOW;
