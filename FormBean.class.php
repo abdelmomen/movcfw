@@ -67,6 +67,7 @@ class FormBean{
 	
 	function validate(){
 		// Validation code will be here
+		// modir
 	}
 
 	public function fromArrayMeta(){
