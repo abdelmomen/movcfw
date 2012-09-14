@@ -68,11 +68,9 @@ class FormBean{
 	function validate(){
 		// Validation code will be here
 		// modir
-<<<<<<< HEAD
 		// not again i am modir
-=======
 		// fuck again
->>>>>>> ead6ee47d56423cb6d90a38d0d7f4a6817b7343d
+
 	}
 
 	public function fromArrayMeta(){
