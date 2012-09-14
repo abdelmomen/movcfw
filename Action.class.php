@@ -72,9 +72,14 @@ class Action extends SmartyBC implements ArrayAccess {
     }
     
     
+<<<<<<< HEAD
 	public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
 	{
 		// Do Some Stuff in Master
+=======
+	public function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
+		
+>>>>>>> origin/blue
 		$p_title=$this->get_template_vars('p_title');
 
 		if(empty($p_title))
