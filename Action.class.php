@@ -76,8 +76,7 @@ class Action extends SmartyBC implements ArrayAccess {
     }
     
     
-	public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
-	{
+	public function display($template = null, $cache_id = null, $compile_id = null, $parent = null){
 		
 		$p_title=$this->get_template_vars('p_title');
 
