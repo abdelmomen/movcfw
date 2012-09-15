@@ -197,7 +197,7 @@ HERE;
 
 function generateSimpleForm($table_is,$all_vars)
 {
-	$fo="<form action='{\$smarty.const.BASE_URL}$table_is\save' method='post' class='' enctype="multipart/form-data">\n\n";
+	$fo="<form action='{\$smarty.const.BASE_URL}$table_is\save' method='post' class='' enctype='multipart/form-data'>\n";
 	$fo.="<input type='hidden' name='id' value='{\$bean->id}' id='id'/>";
 	$add_labels="";
 	
