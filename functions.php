@@ -130,6 +130,8 @@ function is_valid_email($email) {
 	return $result;
 }
 
+//TDOO remove req_once
+
 function req_once($file)
 {
 	if(file_exists($file)){

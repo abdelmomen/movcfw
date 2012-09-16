@@ -1,5 +1,8 @@
 <?php
 
+if(file_exists(APP_DIR."codes.php"))
+	require_once(APP_DIR."codes.php");
+			
 class Action extends SmartyBC implements ArrayAccess {
 
 	private  $errors = array();
@@ -70,6 +73,12 @@ class Action extends SmartyBC implements ArrayAccess {
 
 	public function display($template = null, $cache_id = null, $compile_id = null, $parent = null)
 	{
+		global $codes;
+		
+		if(!empty($codes))
+			$this->assign('codes',$codes);
+		
+
 		$p_title=$this->get_template_vars('p_title');
 
 		if(empty($p_title))
@@ -83,9 +92,13 @@ class Action extends SmartyBC implements ArrayAccess {
 				$this->assign('p_title',$class_small_name);
 		}
 
+
 		// turn smarty debuggin on 
-		//$this->debugging=true;
-		$this->force_cache=true;// force compile every time
+		// $this->debugging=true;
+		
+		// force compile every time
+		// $this->force_cache=true;
+		
 		$this->template_dir=TMPL_PATH;
 		$this->php_handling=Smarty::PHP_ALLOW;
 		$this->assignErrors();
@@ -98,7 +111,7 @@ class Action extends SmartyBC implements ArrayAccess {
 	}
 	
 	public function execute(FormBean $bean){
-    	print "<h1> no execute( )implementation for Action ".$this->getActionName()." </h2>";
+    	print "<h1> no execute() implementation for Action ".$this->getActionName()." </h2>";
 	}
 
 	public function addError($error){
