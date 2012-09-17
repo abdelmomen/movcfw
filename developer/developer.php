@@ -197,7 +197,7 @@ HERE;
 
 function generateSimpleForm($table_is,$all_vars)
 {
-	$fo="<form action='{\$smarty.const.BASE_URL}$table_is\save' method='post' class='' enctype='multipart/form-data'>\n";
+	$fo="<form action='{\$smarty.const.BASE_URL}$table_is/save' method='post' class='' enctype='multipart/form-data'>\n";
 	$fo.="<input type='hidden' name='id' value='{\$bean->id}' id='id'/>";
 	$add_labels="";
 	
@@ -233,10 +233,10 @@ $fo.=<<<HERE
 
 class $ctrlName\n{
 
-	function getAll($beanName  \$bean=null)
+	function getAll($beanName  \$bean=null,\$where="")
 	{
 		\$entity=new $entityName();
-		\$all=\$entity->Find("");
+		\$all=\$entity->Find(\$where);
 		\$beansArr=array();
 		
 	      foreach(\$all as \$entity)
