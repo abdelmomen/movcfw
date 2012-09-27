@@ -51,17 +51,36 @@ function generateBean($tableName,$all_vars,$is_write=null){
 $class_name		=getCamelCase($tableName);
 $enitiyName		=$class_name."Entity";
 
+$arr=$all_vars;
+
+$last_key =@ end(array_keys($arr));
+
+$params="";
 ///
 $fo = "<?php\nclass $class_name"."Bean extends FormBean\n{ \n";
 
-	foreach ($all_vars as $small){
+	foreach ($all_vars as $key=>$small){
 		$fo.="\n	var \$$small;";
+		$params.="\$$small=null";
+		if ($key != $last_key) 
+			$params.=",";
 	}
 	
 $fo.="\n";
 
 $fo.=<<<HERE
 
+	public function __construct($params){
+
+HERE;
+
+	foreach ($all_vars as $small){
+		$fo.="\n		if(isset(\$$small))\$this->$small = \$$small;";
+	}
+
+$fo.=<<<HERE
+
+	}
 }//end bean\n
 HERE;
 
