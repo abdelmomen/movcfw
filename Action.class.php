@@ -51,6 +51,7 @@ class Action extends SmartyBC implements ArrayAccess {
     	
     	$this["registry"]=$registry;
     	$this["lang"]=Registry::singleton()->getStuff('lang');
+    	
     	// Cast Array to object to ease the access of it using {$ini->
     	$this["ini"]=(object)Registry::singleton()->getStuff("ini");
     	

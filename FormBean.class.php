@@ -79,11 +79,14 @@ class FormBean{
 		    	foreach($this->meta as $key=>$val)
 		    	{
 
-		    		if(isset($val[FormBean::TYPE])&&$val[FormBean::TYPE]==FormBean::TYPES_FILE)
-		    		{
+		    		if(
+			    		isset($val[FormBean::TYPE])
+			    		&&$val[FormBean::TYPE]==FormBean::TYPES_FILE 
+			    		&& $_FILES[$key]['size'] >0
+		    		){
 		    			// TDOO upload work
 		    			$path_parts = pathinfo($_FILES[$key]['name']);
-		    			
+
 		    			if(!isset($val[FormBean::PATH]))
 		    				throw new Exception(" The FormBean proberty ($key) type ".FormBean::TYPES_FILE
 		    									." Must have a FormBean::PATH on meta Array() ");
@@ -107,7 +110,6 @@ class FormBean{
 						
 						$this->$key=$val[FormBean::PATH].$upload->GetFileName();
 						
-						// TDOO Also Create Thumb
 		    		}
 		    		else if(isset($val[FormBean::TYPE])&&$val[FormBean::TYPE]==FormBean::TYPES_DATE)
 		    		{
