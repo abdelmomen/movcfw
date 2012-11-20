@@ -51,17 +51,36 @@ function generateBean($tableName,$all_vars,$is_write=null){
 $class_name		=getCamelCase($tableName);
 $enitiyName		=$class_name."Entity";
 
+$arr=$all_vars;
+
+$last_key =@ end(array_keys($arr));
+
+$params="";
 ///
 $fo = "<?php\nclass $class_name"."Bean extends FormBean\n{ \n";
 
-	foreach ($all_vars as $small){
+	foreach ($all_vars as $key=>$small){
 		$fo.="\n	var \$$small;";
+		$params.="\$$small=null";
+		if ($key != $last_key) 
+			$params.=",";
 	}
 	
 $fo.="\n";
 
 $fo.=<<<HERE
 
+	public function __construct($params){
+
+HERE;
+
+	foreach ($all_vars as $small){
+		$fo.="\n		if(isset(\$$small))\$this->$small = \$$small;";
+	}
+
+$fo.=<<<HERE
+
+	}
 }//end bean\n
 HERE;
 
@@ -197,7 +216,7 @@ HERE;
 
 function generateSimpleForm($table_is,$all_vars)
 {
-	$fo="<form action='{\$smarty.const.BASE_URL}$table_is\save' method='post' class='' enctype="multipart/form-data">\n\n";
+	$fo="<form action='{\$smarty.const.BASE_URL}$table_is/save' method='post' class='' enctype='multipart/form-data'>\n";
 	$fo.="<input type='hidden' name='id' value='{\$bean->id}' id='id'/>";
 	$add_labels="";
 	
@@ -233,10 +252,10 @@ $fo.=<<<HERE
 
 class $ctrlName\n{
 
-	function getAll($beanName  \$bean=null)
+	function getAll($beanName  \$bean=null,\$where="")
 	{
 		\$entity=new $entityName();
-		\$all=\$entity->Find("");
+		\$all=\$entity->Find(\$where);
 		\$beansArr=array();
 		
 	      foreach(\$all as \$entity)
