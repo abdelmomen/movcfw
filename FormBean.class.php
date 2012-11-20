@@ -65,52 +65,99 @@ class FormBean{
 	}
 	
 	
-	function validate(){}
+	function validate(){
+		// Validation code will be here
+		// modir
+		// not again i am modir
+		// fuck again
+	}
 
 	public function fromArrayMeta(){
 		    	//if(isset($this->meta[$key])&&$this->meta[$key]['required']==TRUE)echo "$key req";
 		    	$this->fromArray();
+
 		    	foreach($this->meta as $key=>$val)
 		    	{
 
-		    		if(isset($val[FormBean::TYPE])&&$val[FormBean::TYPE]==FormBean::TYPES_FILE)
-		    		{
-		    			// TDOO upload work
-		    			$path_parts = pathinfo($_FILES[$key]['name']);
-		    			
+		    		if(
+			    		isset($val[FormBean::TYPE])
+			    		&& $val[FormBean::TYPE]==FormBean::TYPES_FILE 
+			    		&& $_FILES[$key]['size'] >0
+		    		){
+
 		    			if(!isset($val[FormBean::PATH]))
-		    				throw new Exception(" The FormBean proberty ($key) type ".FormBean::TYPES_FILE
-		    									." Must have a FormBean::PATH on meta Array() ");
-		    			
-						require_once 'lib/Upload.php';
+			    			throw new Exception(" The FormBean proberty ($key) type ".FormBean::TYPES_FILE.
+			    								" Must have a FormBean::PATH on meta Array() ");
+			    								
+			    		require_once 'lib/Upload.php';
 						require_once 'lib/ImageAPI.class.php';
 						
-						$upload = new Upload();
+		    			// Multiple
+		    			if(is_array($_FILES[$key]['name']))
+		    			{
+		    				foreach($_FILES[$key]['name'] as $j=>$name){
+		    					$path_parts = pathinfo($_FILES[$key]['name'][$j]);
+		    					
+		    					$upload = new Upload();
+							
+			    				// Windows environment check 
+				    			if(strpos( PHP_OS,"WIN") !== false &&
+				    			//Not ASCII
+				    			!mb_detect_encoding($name, 'ASCII', true))
+				    			{
+				    				$upload->SetFileName("$key.{$path_parts['extension']}");
+				    			}
+				    			else
+				    				$upload->SetFileName($_FILES[$key]['name'][$j]);
+				    				
+								$upload->SetTempName($_FILES[$key]['tmp_name'][$j]);
+								$upload->SetUploadDirectory($val[FormBean::PATH]);
+								
+								//Maximum file size in bytes, if this is not set, the value in your php.ini file will be the maximum value
+								if(isset($val[FormBean::MAX_KB_SIZE]))
+									$upload->SetMaximumFileSize($val[FormBean::MAX_KB_SIZE]*1000);
+		
+								$fileIsOK=$upload->UploadFile();
+								
+								$this->{$key}[]=$val[FormBean::PATH].$upload->GetFileName();
+		    				}
+		    			}
+		    			else
+		    			{
+		    				// TDOO check extensions
+			    			$path_parts = pathinfo($_FILES[$key]['name']);
 
-		    			$upload->SetFileName($_FILES[$key]['name']);
-			
-						$upload->SetTempName($_FILES[$key]['tmp_name']);
-						
-						$upload->SetUploadDirectory($val[FormBean::PATH]);
-						
-						//Maximum file size in bytes, if this is not set, the value in your php.ini file will be the maximum value
-						if(isset($val[FormBean::MAX_KB_SIZE]))
-							$upload->SetMaximumFileSize($val[FormBean::MAX_KB_SIZE]*1000);
-
-						$fileIsOK=$upload->UploadFile();
-						
-						$this->$key=$val[FormBean::PATH].$upload->GetFileName();
-						
-						// TDOO Also Create Thumb
+							$upload = new Upload();
+							
+		    				// Windows environment check must be ASCII
+			    			if(strpos( PHP_OS,"WIN") !== false &&
+			    			!mb_detect_encoding($_FILES[$key]['name'], 'ASCII', true))
+			    				$upload->SetFileName("$key.{$path_parts['extension']}");
+			    			
+			    			else
+			    				$upload->SetFileName($_FILES[$key]['name']);
+			    				
+							$upload->SetTempName($_FILES[$key]['tmp_name']);
+							$upload->SetUploadDirectory($val[FormBean::PATH]);
+							
+							//Maximum file size in bytes, if this is not set, the value in your php.ini file will be the maximum value
+							if(isset($val[FormBean::MAX_KB_SIZE]))
+								$upload->SetMaximumFileSize($val[FormBean::MAX_KB_SIZE]*1000);
+	
+							$fileIsOK=$upload->UploadFile();
+							
+							$this->$key=$val[FormBean::PATH].$upload->GetFileName();
+		    			}
 		    		}
 		    		else if(isset($val[FormBean::TYPE])&&$val[FormBean::TYPE]==FormBean::TYPES_DATE)
 		    		{
-
 		    			$time_h=FormBean::DATE_TIME_HOURS;
+		    			
 		    			if(isset($val[FormBean::DATE_TIME_HOURS]))
 		    				$hours=$this->$time_h;
-		    				
+
 		    			$time_m=FormBean::DATE_TIME_MINUTES;
+		    			
 		    			if(isset($val[FormBean::DATE_TIME_MINUTES]))
 		    				$mins=$this->$time_m;
 		    			
