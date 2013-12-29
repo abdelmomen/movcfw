@@ -219,7 +219,6 @@ class Registry {
 	public static function storeSession()
 	{
 		$__regist=self::$instance;
-		
 		try
 		{
 			foreach($__regist->pointers as $pointer)
@@ -228,15 +227,13 @@ class Registry {
 				{
 					$_SESSION[APP_NAME.'-'.$pointer->name] = serialize($__regist->stuff[$pointer->name]);
 				}
-					
 			}
-			$__regist->stuff= array();
+			$__regist->stuff = array();
 			$_SESSION[APP_NAME.'-registry'] = serialize(self::$instance);
 		}
     	catch(Exception $e){
     		print $e->getTraceAsString();
     	}
-
   	}
 
 	
@@ -278,7 +275,6 @@ class Registry {
 				$operation=$route[$url[0]]."/".$url[1];
 				$url=preg_split('/\//', $operation);
 			}
-
 		}
 
 			//$do=preg_split('/::/', $operation);		

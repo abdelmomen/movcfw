@@ -88,6 +88,10 @@ function str_enclose($string){
 	return "'".$string."'";
 }
 
+function str_enclose_like($string){
+	return "'%".$string."%'";
+}
+
 function debg($something)
 {
 	print "<div style='border:1px solid ;direction:ltr;font-size: 14px;padding: 10px;back;background-color:#FEE;'><pre>";
@@ -118,7 +122,6 @@ function print_x( $e )
 	$asHtml = str_replace("\n", "\n<br/>", $trace);
 	print '<p><b>Caught exception:</b><br/>>'.$asHtml. "\n</p>";
 	print '<p><b>with message:</b> <h3 style="color:red;padding-left: 40px" > '. $e->getMessage()."</h3></p>";
-
 }
 
 function is_valid_email($email) {

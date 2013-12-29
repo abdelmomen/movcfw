@@ -20,8 +20,7 @@ $fo.="\n";
 	
 $fo.=<<<HERE
 		
-    public function __construct() 
-    {
+    public function __construct(){
 		parent::__construct('$tableName','$id');
     }
 	
@@ -56,14 +55,14 @@ $arr=$all_vars;
 $last_key =@ end(array_keys($arr));
 
 $params="";
-///
+
 $fo = "<?php\nclass $class_name"."Bean extends FormBean\n{ \n";
 
 	foreach ($all_vars as $key=>$small){
 		$fo.="\n	var \$$small;";
 		$params.="\$$small=null";
 		if ($key != $last_key) 
-			$params.=",";
+			$params.=",\n		";
 	}
 	
 $fo.="\n";
@@ -84,8 +83,8 @@ $fo.=<<<HERE
 }//end bean\n
 HERE;
 
-	if($is_write==1)
-	{
+	if($is_write==1){
+		
 		chdir(APP_PATH."app/beans");
 		
 		$myFile = $class_name."Bean.class.php";
@@ -100,6 +99,7 @@ HERE;
 return $fo;
 }
 
+/*
 
 function generateXML($tableName,$is_write=null){
 	
@@ -141,7 +141,7 @@ HERE;
 		$dom->preserveWhiteSpace = false;
 		$dom->load("app/app.xml");
 		
-		/* @var $tag DOMElement */
+		// @var $tag DOMElement
 		
 		// Entites Work
 		$entities = $dom->getElementsByTagName('entities')->item(0);
@@ -211,8 +211,34 @@ HERE;
 	}
 	return $rest;
 }
+*/
+
+function generateTable($table_is,$all_vars)
+{
+	
+$fo=<<<HERE
 
 
+=================== simple table  ===================
+
+<table>
+<thead>
+	<tr>
+
+HERE;
+
+	$tds="";
+
+	foreach($all_vars as $var){
+		$fo.="		<th> $var </th>\n";
+		$tds.="	<td>{\$one->$var}</td>\n";
+	}
+$fo.="	</tr>\n</thead>\n\n<tbody>\n\n";
+$fo.="{foreach from=\$all_$table_is  key=k item=one}\n<tr>\n";
+$fo.=$tds."\n</tr>\n{/foreach}\n\n</tbody>\n</table>";
+return $fo;
+
+}
 
 function generateSimpleForm($table_is,$all_vars)
 {
@@ -252,8 +278,8 @@ $fo.=<<<HERE
 
 class $ctrlName\n{
 
-	function getAll($beanName  \$bean=null,\$where="")
-	{
+	function getAll($beanName  \$bean=null,\$where=""){
+	
 		\$entity=new $entityName();
 		\$all=\$entity->Find(\$where);
 		\$beansArr=array();
@@ -266,16 +292,16 @@ class $ctrlName\n{
 		return \$beansArr;
 	}
 	
-	function delete($beanName \$bean)
-	{
+	function delete($beanName \$bean){
+	
 		\$entity=new $entityName();
 		\$entity->fromBean(\$bean);
 		\$entity->Load(" id=".\$bean->id);
 		return \$entity->Delete();
 	}
 	
-	function save($beanName \$bean)
-	{
+	function save($beanName \$bean){
+	
 		\$entity=new $entityName();
 		\$entity->fromBean(\$bean);
 		if(\$bean->id)
@@ -288,8 +314,8 @@ class $ctrlName\n{
 		return $beanName::fromEntity(\$entity,"$beanName");
 	}
 	
-	function getById($beanName \$bean)
-	{
+	function getById($beanName \$bean){
+	
 		\$entity=new $entityName();
 		\$entity->Load(" id=".\$bean->id);
 		return $beanName::fromEntity(\$entity,"$beanName");
@@ -335,13 +361,12 @@ $fo.=<<<HERE
 
 class $actionName extends Action\n{
 
-	function execute(FormBean \$bean)
-	{
+	function execute(FormBean \$bean){
 
 	}
 
-	function save(FormBean \$bean)
-	{
+	function save(FormBean \$bean){
+	
 		\$bean->fromArray();
 		// model work
 		\$model=\$this->model;
@@ -349,8 +374,8 @@ class $actionName extends Action\n{
 		//return redirect(BASE_URL."$tableName/all");
 	}
 	
-	function delete(FormBean \$bean)
-	{
+	function delete(FormBean \$bean){
+	
 		\$bean->fromArray();
 		// model work
 		\$model=\$this->model;
@@ -358,8 +383,8 @@ class $actionName extends Action\n{
 		//return redirect(BASE_URL."$tableName/all");
 	}
 	
-	function data(FormBean \$bean)
-	{
+	function data(FormBean \$bean){
+	
 		\$bean->fromArray();
 		// model work
 		if(\$bean->id)
@@ -371,8 +396,8 @@ class $actionName extends Action\n{
 		//\$this->display("{$tableName}_data.tpl");
 	}
 	
-	function all(FormBean \$bean)
-	{
+	function all(FormBean \$bean){
+	
 		\$model=\$this->model;
 		\$all=\$model->getAll();
 		\$this['all_$tableName']=\$all;

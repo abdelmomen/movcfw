@@ -148,6 +148,8 @@ function generateDataObjects()
 
 	print generateSimpleForm($table_is,$columns);
 	
+	print generateTable($table_is,$columns);
+	
 	print "</textarea><hr/>";
 	
 	print "<textarea cols='100' rows='40'>";
